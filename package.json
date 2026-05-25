@@ -1,0 +1,44 @@
+{
+  "name": "focus-assistant",
+  "version": "1.0.0",
+  "description": "专注助手 - 时间管理与专注工具",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --mac --win",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "cap:android": "capacitor copy android && cd android && ./gradlew assembleDebug"
+  },
+  "build": {
+    "appId": "com.focus.assistant",
+    "productName": "专注助手",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] }
+      ]
+    },
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] }
+      ]
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "css/**/*",
+      "js/**/*"
+    ]
+  },
+  "keywords": ["时间管理", "番茄钟", "专注"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/cli": "^7.2.0",
+    "@capacitor/core": "^7.2.0",
+    "electron": "^42.2.0",
+    "electron-builder": "^26.8.1"
+  }
+}

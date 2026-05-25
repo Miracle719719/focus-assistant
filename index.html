@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  <title>专注助手 2.0</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ====== 顶部导航 ====== -->
+  <header class="header">
+    <div class="container header__inner">
+      <div>
+        <h1 class="header__title">专注助手</h1>
+        <p class="header__date" id="currentDate">--</p>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="切换主题">
+        <svg class="theme-toggle__icon" viewBox="0 0 24 24" width="22" height="22">
+          <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+
+      <!-- ====== 卡片1：番茄钟 ====== -->
+      <section class="card card--timer">
+        <div class="card__header">
+          <h2 class="card__title">
+            <svg class="card__icon" viewBox="0 0 24 24" width="20" height="20">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            </svg>
+            番茄钟
+          </h2>
+          <span class="badge" id="pomodoroStatus">准备就绪</span>
+        </div>
+
+        <!-- 环形进度条 -->
+        <div class="timer-ring">
+          <svg class="timer-ring__svg" viewBox="0 0 200 200">
+            <circle class="timer-ring__bg" cx="100" cy="100" r="88" stroke-width="6" fill="none"/>
+            <circle class="timer-ring__progress" id="timerRing" cx="100" cy="100" r="88"
+              stroke-width="6" fill="none" stroke-linecap="round"
+              stroke-dasharray="553" stroke-dashoffset="0" transform="rotate(-90, 100, 100)"/>
+          </svg>
+          <div class="timer-ring__center">
+            <span class="timer__display" id="timerDisplay">25:00</span>
+            <span class="timer__label" id="pomodoroStatusInline">专注</span>
+          </div>
+        </div>
+
+        <!-- 控制按钮 -->
+        <div class="timer__controls">
+          <button class="timer__btn timer__btn--primary" id="startBtn">
+            <svg viewBox="0 0 24 24" width="18" height="18"><polygon points="6,4 20,12 6,20" fill="currentColor"/></svg>
+            开始
+          </button>
+          <button class="timer__btn timer__btn--secondary" id="pauseBtn" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18"><rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor"/><rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor"/></svg>
+            暂停
+          </button>
+          <button class="timer__btn timer__btn--ghost" id="resetBtn">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M1 4v6h6M23 20v-6h-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <!-- ===== 时间设置 ===== -->
+        <div class="timer-settings" id="timerSettings">
+          <div class="timer-setting">
+            <span class="ts-label">专注</span>
+            <div class="ts-control">
+              <button class="ts-btn" data-target="work" data-dir="-5">−</button>
+              <span class="ts-value" id="workDisplay">25</span>
+              <button class="ts-btn" data-target="work" data-dir="5">+</button>
+            </div>
+            <span class="ts-unit">分钟</span>
+          </div>
+          <div class="timer-setting">
+            <span class="ts-label">休息</span>
+            <div class="ts-control">
+              <button class="ts-btn" data-target="break" data-dir="-1">−</button>
+              <span class="ts-value" id="breakDisplay">5</span>
+              <button class="ts-btn" data-target="break" data-dir="1">+</button>
+            </div>
+            <span class="ts-unit">分钟</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== 卡片2：今日任务（四象限） ====== -->
+      <section class="card">
+        <div class="card__header">
+          <h2 class="card__title">
+            <svg class="card__icon" viewBox="0 0 24 24" width="20" height="20">
+              <path d="M9 11l3 3L22 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            今日任务
+          </h2>
+          <span class="badge" id="taskCount">0 / 0</span>
+        </div>
+        <div class="card__body">
+          <!-- 输入区 + 四象限选择 -->
+          <div class="task-input">
+            <input type="text" class="task-input__field" id="taskInput" placeholder="输入新任务...">
+            <button class="task-input__btn" id="addTaskBtn">添加</button>
+          </div>
+          <div class="quadrant-select" id="quadrantSelect">
+            <button class="quad-btn quad-btn--q1 is-active" data-quadrant="q1">立即做</button>
+            <button class="quad-btn quad-btn--q2" data-quadrant="q2">计划做</button>
+            <button class="quad-btn quad-btn--q3" data-quadrant="q3">委托做</button>
+            <button class="quad-btn quad-btn--q4" data-quadrant="q4">减少做</button>
+          </div>
+          <ul class="task-list" id="taskList">
+            <li class="task-list__item task-list__item--empty">还没有任务，添加一个吧</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ====== 卡片3：学习统计 ====== -->
+      <section class="card">
+        <div class="card__header">
+          <h2 class="card__title">
+            <svg class="card__icon" viewBox="0 0 24 24" width="20" height="20">
+              <path d="M18 20V10M12 20V4M6 20v-6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            学习统计
+          </h2>
+        </div>
+        <div class="card__body">
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-item__value" id="todayMinutes">0</span>
+              <span class="stat-item__label">今日专注<br>（分钟）</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-item__value" id="completedTasks">0</span>
+              <span class="stat-item__label">完成任务</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-item__value" id="streakDays">0</span>
+              <span class="stat-item__label">连续天数</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>专注助手 2.0 · 四象限 + 可调番茄钟</p>
+      </footer>
+
+    </div>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/pomodoro.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
